@@ -1,49 +1,94 @@
 var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
-var campsPlaceholder = [
-  {
-    name: "Salmon Creek",
-    image: "https://cdn.shopify.com/s/files/1/2468/4011/products/campsite_1_600x.png?v=1524622915"
-  },
-  {
-    name: "Granite Hill",
-    image: "https://www.pitchup.com/images/4/image/private/s--GoBW6-qo--/c_limit,h_2400,w_3200/e_improve,fl_progressive/q_auto/b_rgb:000,g_south_west,l_pitchup.com_wordmark_white_watermark,o_15/v1423732353/torrent-walk-campsite/torrent-walk-campsite-camping-near-cadair-idris.jpg"
-  },
-  {
-    name: "Mountain Goat's Rest",
-    image: "https://www.nps.gov/subjects/camping/images/site-number_2.jpg?maxwidth=1200&maxheight=1200&autorotate=false"
-  }
-]
+var mongoose = require('mongoose')
 
+// tools set up 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
+mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true })
+
+// schema set up 
+var campgroundSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  description: String
+})
+var Campground = mongoose.model('Campground', campgroundSchema)
+
+// Campground.create(
+//   {
+//     name: "Granite Hill",
+//     image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png",
+//     description: "This is a huge granite hill, no bathrooms. No water. Beautiful Granite"
+//   },
+//   (err, campground) => {
+//     if (err) {
+//       console.log(err)
+//     }
+//     else {
+//       console.log('new campground created')
+//       console.log(campground)
+//     }
+//   }
+// )
+
 
 app.get('/', (req, res) => {
   res.render('landing')
 })
 
+// INDEX - show all campgrounds
 app.get('/campgrounds', (req, res) => {
-  res.render('campgrounds', {
-    campgrounds: campsPlaceholder
+  Campground.find({}, (err, campgrounds) => {
+    if (err) {
+      console.log(err)
+    }
+    else {
+      res.render('index', {
+        campgrounds: campgrounds
+      })
+    }
   })
 })
 
+// NEW - show form to create campground
 app.get('/campgrounds/new', (req, res) => {
   res.render('new')
 })
 
-app.post('/campgrounds', (req, res) => {
+// SHOW - shows info about one campground
+app.get('/campgrounds/:id', (req, res) => {
 
-  // get data from form and add to camp ground array
+  // find the specific campground
+  Campground.findById(req.params.id, (err, foundCampground) => {
+    if (err) {
+      console.log(err)
+    }
+    else {
+      res.render('show', { campground: foundCampground })
+    }
+  })
+})
+
+// CREATE - add new campground to database
+app.post('/campgrounds', (req, res) => {
   var body = {
     name: req.body.name,
-    image: req.body.image
+    image: req.body.image,
+    description: req.body.description
   }
-  campsPlaceholder.push(body)
-
-  // redirect to campground page
-  res.redirect('/campgrounds')
+  Campground.create(
+    body,
+    (err, campground) => {
+      if (err) {
+        console.log(err)
+      }
+      else {
+        res.redirect('/campgrounds')
+      }
+    }
+  )
 })
 
 app.listen(3000, () => {
