@@ -3,6 +3,7 @@ var app = express()
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var Campground = require('./models/campground')
+var Comment = require('./models/comment')
 var seedDB = require('./seeds')
 
 seedDB()
@@ -24,7 +25,7 @@ app.get('/campgrounds', (req, res) => {
       console.log(err)
     }
     else {
-      res.render('index', {
+      res.render('campgrounds/index', {
         campgrounds: campgrounds
       })
     }
@@ -33,7 +34,7 @@ app.get('/campgrounds', (req, res) => {
 
 // NEW - show form to create campground
 app.get('/campgrounds/new', (req, res) => {
-  res.render('new')
+  res.render('campgrounds/new')
 })
 
 // SHOW - shows info about one campground
@@ -47,7 +48,7 @@ app.get('/campgrounds/:id', (req, res) => {
         console.log(err)
       }
       else {
-        res.render('show', { campground: foundCampground })
+        res.render('campgrounds/show', { campground: foundCampground })
       }
     })
 })
@@ -73,7 +74,37 @@ app.post('/campgrounds', (req, res) => {
 })
 
 // new comment
+app.get('/campgrounds/:id/comments/new', (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err)
+    }
+    else {
+      res.render('comments/new', { campground: campground })
+    }
+  })
+})
 
+app.post('/campgrounds/:id/comments', (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err)
+      res.redirect('/campgrounds')
+    }
+    else {
+      Comment.create(req.body.comment, (err, comment) => {
+        if (err) {
+          console.log(err)
+        }
+        else {
+          campground.comments.push(comment)
+          campground.save()
+          res.redirect('/campgrounds/' + req.params.id)
+        }
+      })
+    }
+  })
+})
 
 app.listen(3000, () => {
   console.log('Yelp Camp has started!')
