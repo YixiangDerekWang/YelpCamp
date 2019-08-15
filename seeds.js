@@ -4,17 +4,17 @@ var data = [
   {
     name: "Cloud's Rest",
     image: "https://i1.wp.com/visitmckenzieriver.com/oregon/wp-content/uploads/2015/06/paradise_campground.jpg?resize=640%2C420",
-    dexcription: "this will be cloud's rest"
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis saepe, sed aspernatur minus, facilis quas sunt iste quisquam debitis, minima eos quod architecto praesentium quos iusto ab rerum accusamus ullam!'
   },
   {
     name: "Brendel Lake Campgound",
     image: "https://res.cloudinary.com/miles-extranet-dev/image/upload/ar_16:9,c_fill,w_1000,g_face,q_50/Michigan/account_photos/3321/273758c7f87bb3b3ccadde7f5b4123f9_brendellakecampground.jpg",
-    dexcription: "this is in Michigan"
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis saepe, sed aspernatur minus, facilis quas sunt iste quisquam debitis, minima eos quod architecto praesentium quos iusto ab rerum accusamus ullam!"
   },
   {
     name: "Mountain Black",
     image: "https://11mjsg94ex5ggb0b7k6013aj-wpengine.netdna-ssl.com/wp-content/uploads/img_0842-1170x640.jpg",
-    dexcription: "Broken Back Mountain?"
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis saepe, sed aspernatur minus, facilis quas sunt iste quisquam debitis, minima eos quod architecto praesentium quos iusto ab rerum accusamus ullam!"
   },
 ]
 
