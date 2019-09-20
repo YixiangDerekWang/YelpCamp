@@ -35,7 +35,6 @@ function seedDB() {
             console.log(err)
           }
           else {
-            console.log('Created a campground')
 
             // add in comments
             Comment.create(
@@ -49,7 +48,6 @@ function seedDB() {
                 else {
                   campground.comments.push(comment)
                   campground.save()
-                  console.log('Created a new comment')
                 }
               })
           }
