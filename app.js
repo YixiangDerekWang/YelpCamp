@@ -11,7 +11,7 @@ var commentRoutes = require('./routes/comments')
 var campgroundRoutes = require('./routes/campgrounds')
 var indexRoutes = require('./routes/index')
 
-seedDB()
+//seedDB()      // seed the database
 
 // passport configuration
 app.use(require('express-session')({
