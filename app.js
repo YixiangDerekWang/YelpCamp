@@ -2,18 +2,20 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
-var seedDB = require('./seeds')
 var passport = require('passport')
 var LocalStrategy = require('passport-local')
+var methodOverride = require('method-override')
 var User = require('./models/user')
 
 var commentRoutes = require('./routes/comments')
 var campgroundRoutes = require('./routes/campgrounds')
 var indexRoutes = require('./routes/index')
 
+var seedDB = require('./seeds')
 //seedDB()      // seed the database
 
 // passport configuration
+app.use(methodOverride('_method'))
 app.use(require('express-session')({
   secret: 'huge secret',
   resave: false,
