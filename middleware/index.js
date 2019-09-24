@@ -17,13 +17,19 @@ middlewareObj.checkCampgroundOwnership = (req, res, next) => {
     // error check 
     if (err) {
       req.flash('error', 'Campground error')
-      res.redirect('back')
+      return res.redirect('back')
+    }
+
+    // check if campground exists
+    if (!foundCampground) {
+      req.flash('error', 'Item not found')
+      return res.redirect('back')
     }
 
     // check if user is the author
     else if (!foundCampground.author.id.equals(req.user._id)) {
       req.flash('error', "You don't have permission to do that")
-      res.redirect('back')
+      return res.redirect('back')
     }
 
     // ownership checked
