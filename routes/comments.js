@@ -3,7 +3,7 @@ var router = express.Router({ mergeParams: true })
 var Campground = require('../models/campground')
 var Comment = require('../models/comment')
 
-// new comment
+// new
 router.get(
   '/new',
   isLoggedIn,
@@ -19,7 +19,7 @@ router.get(
   }
 )
 
-// create comment
+// create
 router.post(
   '/',
   isLoggedIn,
@@ -47,6 +47,30 @@ router.post(
     })
   }
 )
+
+// edit routes
+router.get('/:comment_id/edit', (req, res) => {
+  Comment.findById(req.params.comment_id, (err, foundComment) => {
+    if (err) {
+      res.redirect('back')
+    }
+    else {
+      res.render('./comments/edit', { campground_id: req.params.id, comment: foundComment })
+    }
+  })
+})
+
+// update route
+router.put('/:comment_id', (req, res) => {
+  Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
+    if (err) {
+      res.redirect('back')
+    }
+    else {
+      res.redirect('/campgrounds/' + req.params.id)
+    }
+  })
+})
 
 // isLoggedIn middleware 
 function isLoggedIn(req, res, next) {
