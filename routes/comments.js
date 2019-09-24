@@ -34,6 +34,7 @@ router.post(
         Comment.create(req.body.comment, (err, comment) => {
           if (err) {
             console.log(err)
+            req.flash('error', 'Something went wrong')
           }
           else {
             comment.author.id = req.user._id
@@ -41,6 +42,7 @@ router.post(
             comment.save()
             campground.comments.push(comment)
             campground.save()
+            req.flash('success', 'Successfully added comment')
             res.redirect('/campgrounds/' + req.params.id)
           }
         })
@@ -91,6 +93,7 @@ router.delete(
         res.redirect('back')
       }
       else {
+        req.flash('success', 'Comment deleted')
         res.redirect('/campgrounds/' + req.params.id)
       }
     })

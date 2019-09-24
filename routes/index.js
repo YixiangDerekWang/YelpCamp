@@ -18,12 +18,14 @@ router.post('/register', (req, res) => {
   var newUser = new User({ username: req.body.username })
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
+      req.flash('error', err.message)
       console.log(err)
-      return res.render('register')
+      return res.redirect('register')
     }
 
     // log in the user after registered 
     passport.authenticate('local')(req, res, () => {
+      req.flash('success', 'Welcome to Yelp Camp ' + user.username)
       res.redirect('/campgrounds')
     })
   })
@@ -48,6 +50,7 @@ router.post('/login',
 // logout route
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success', 'Successfully logged out')
   res.redirect('/campgrounds')
 })
 

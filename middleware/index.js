@@ -7,6 +7,7 @@ middlewareObj.checkCampgroundOwnership = (req, res, next) => {
 
   // check if user is logged in 
   if (!req.isAuthenticated()) {
+    req.flash('error', 'You need to be logged in to do that!')
     res.redirect('back')
     return
   }
@@ -15,11 +16,13 @@ middlewareObj.checkCampgroundOwnership = (req, res, next) => {
 
     // error check 
     if (err) {
+      req.flash('error', 'Campground error')
       res.redirect('back')
     }
 
     // check if user is the author
     else if (!foundCampground.author.id.equals(req.user._id)) {
+      req.flash('error', "You don't have permission to do that")
       res.redirect('back')
     }
 
@@ -35,6 +38,7 @@ middlewareObj.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
   }
+  req.flash('error', 'You need to be logged in to do that!')
   res.redirect('/login')
 }
 
@@ -42,6 +46,7 @@ middlewareObj.checkCommentOwenership = (req, res, next) => {
 
   // check if user is logged in 
   if (!req.isAuthenticated()) {
+    req.flash('error', 'You need to be logged in to do that')
     res.redirect('back')
     return
   }
@@ -50,11 +55,13 @@ middlewareObj.checkCommentOwenership = (req, res, next) => {
 
     // error check 
     if (err) {
+      req.flash('error', 'Something went wrong')
       res.redirect('back')
     }
 
     // check if user is the author
     else if (!foundComment.author.id.equals(req.user._id)) {
+      req.flash('error', "You don't have the permission to do that")
       res.redirect('back')
     }
 

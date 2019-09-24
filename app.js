@@ -10,6 +10,7 @@ var User = require('./models/user')
 var commentRoutes = require('./routes/comments')
 var campgroundRoutes = require('./routes/campgrounds')
 var indexRoutes = require('./routes/index')
+var flash = require('connect-flash')
 
 var seedDB = require('./seeds')
 //seedDB()      // seed the database
@@ -23,6 +24,7 @@ app.use(require('express-session')({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(flash())
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
@@ -35,6 +37,8 @@ mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true })
 mongoose.set('useFindAndModify', false)
 app.use((req, res, next) => {
   res.locals.currentUser = req.user
+  res.locals.error = req.flash('error')
+  res.locals.success = req.flash('success')
   next()
 })
 
