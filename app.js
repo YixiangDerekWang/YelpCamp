@@ -47,10 +47,8 @@ app.use('/campgrounds', campgroundRoutes)
 app.use('/', indexRoutes)
 app.use('/campgrounds/:id/comments', commentRoutes)
 
-
-// app.listen(3000, () => {
-//   console.log('Yelp Camp has started!')
-// })
-app.listen(process.env.PORT, process.env.IP, () => {
-  console.log('Yelp Camp has started!')
+const port = process.env.PORT || 3000
+const ip = process.env.IP || "192.168.1.74"
+app.listen(port, () => {
+  console.log('Server has started at port ' + port + 'ip: ' + ip)
 })
