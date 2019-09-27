@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
 // mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true })
-mongoose.connect('mongodb+srv://Derek:wodemimashi608@yelpcamp-cbskv.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true })
+mongoose.connect('mongodb+srv://Derek:wodemimashi608%40yelpcamp-cbskv.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true })
 mongoose.set('useFindAndModify', false)
 app.use((req, res, next) => {
   res.locals.currentUser = req.user
@@ -47,6 +47,10 @@ app.use('/campgrounds', campgroundRoutes)
 app.use('/', indexRoutes)
 app.use('/campgrounds/:id/comments', commentRoutes)
 
+
+// app.listen(3000, () => {
+//   console.log('Yelp Camp has started!')
+// })
 app.listen(process.env.PORT, process.env.IP, () => {
   console.log('Yelp Camp has started!')
 })
