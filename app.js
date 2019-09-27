@@ -34,7 +34,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
 // mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true })
-mongoose.connect('mongodb+srv://Derek:wodemimashi608%40yelpcamp-cbskv.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true })
+mongoose.connect('mongodb+srv://Derek:wodemimashi608@yelpcamp-cbskv.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true })
+  .then(() => console.log('Database Connected'))
+  .catch(err => console.log('Database connection error: ' + err.message))
 mongoose.set('useFindAndModify', false)
 app.use((req, res, next) => {
   res.locals.currentUser = req.user
@@ -50,5 +52,5 @@ app.use('/campgrounds/:id/comments', commentRoutes)
 const port = process.env.PORT || 3000
 const ip = process.env.IP || "192.168.1.74"
 app.listen(port, () => {
-  console.log('Server has started at port ' + port + 'ip: ' + ip)
+  console.log('Server has started at port ' + port + ' ip: ' + ip)
 })
