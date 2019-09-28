@@ -33,8 +33,12 @@ passport.deserializeUser(User.deserializeUser())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
-// mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true })
-mongoose.connect('mongodb+srv://Derek:wodemimashi608@yelpcamp-cbskv.mongodb.net/YelpCamp?retryWrites=true&w=majority', { useNewUrlParser: true })
+
+/*
+ * Local Database: mongodb://localhost/yelp_camp
+ * Mongo Lab:      mongodb+srv://Derek:wodemimashi608@yelpcamp-cbskv.mongodb.net/YelpCamp?retryWrites=true&w=majority
+ */
+mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true })
   .then(() => console.log('Database Connected'))
   .catch(err => console.log('Database connection error: ' + err.message))
 mongoose.set('useFindAndModify', false)
